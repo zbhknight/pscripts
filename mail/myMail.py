@@ -76,6 +76,7 @@ def main():
 
   m = MyMail(usermail, password, stmpserver)
   m.add_base(filename)
+  m.add_base("../README.md")
   m.add_text(msg)
   m.send_mime([sendto], "test")
 
