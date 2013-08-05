@@ -43,12 +43,12 @@ class MyMail():
 
     self.main_msg.attach(file_msg)
 
-  def add_text(self, text):
+  def add_text(self, text, txt_type="plain"):
     #构建MIMEMultipart对象作为根容器
     if not self.main_msg:
       self.main_msg = email.MIMEMultipart.MIMEMultipart()
 
-    text_msg = email.MIMEText.MIMEText(text)
+    text_msg = email.MIMEText.MIMEText(text, txt_type)
     self.main_msg.attach(text_msg)
 
   def send_mime(self, destEmail, title):
@@ -76,7 +76,6 @@ def main():
 
   m = MyMail(usermail, password, stmpserver)
   m.add_base(filename)
-  m.add_base("../README.md")
   m.add_text(msg)
   m.send_mime([sendto], "test")
 
