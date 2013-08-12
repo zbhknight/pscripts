@@ -6,6 +6,8 @@ import os
 import smtplib
 import sys
 
+MAX_TXT_LEN = 50000
+
 
 class MyMail():
   def __init__(self, username, password, smtpSvr):
@@ -23,28 +25,28 @@ class MyMail():
     self.server.quit()
 
   def add_base(self, filename):
-    #¹¹½¨MIMEMultipart¶ÔÏó×÷Îª¸ùÈİÆ÷
+    #æ„å»ºMIMEMultipartå¯¹è±¡ä½œä¸ºæ ¹å®¹å™¨
     if not self.main_msg:
       self.main_msg = email.MIMEMultipart.MIMEMultipart()
 
-    #¹¹½¨MIMEBase¶ÔÏó×÷ÎªÎÄ¼ş¸½¼ş²¢¸½¼Óµ½¸ùÈİÆ÷
+    #æ„å»ºMIMEBaseå¯¹è±¡ä½œä¸ºæ–‡ä»¶é™„ä»¶å¹¶é™„åŠ åˆ°æ ¹å®¹å™¨
     contype = 'application/octet-stream'
     maintype, subtype = contype.split('/', 1)
 
-    #¶ÁÈëÎÄ¼şÄÚÈİ²¢ÇÒ¸ñÊ½»¯
+    #è¯»å…¥æ–‡ä»¶å†…å®¹å¹¶ä¸”æ ¼å¼åŒ–
     with open(filename, 'rb') as data:
       file_msg = email.MIMEBase.MIMEBase(maintype, subtype)
       file_msg.set_payload(data.read())
     email.Encoders.encode_base64(file_msg)
 
-    #ÉèÖÃ¸½¼şÍ·
+    #è®¾ç½®é™„ä»¶å¤´
     basename = os.path.basename(filename)
     file_msg.add_header('Content-Disposition', 'attachment', filename=basename)
 
     self.main_msg.attach(file_msg)
 
   def add_text(self, text, txt_type="plain"):
-    #¹¹½¨MIMEMultipart¶ÔÏó×÷Îª¸ùÈİÆ÷
+    #æ„å»ºMIMEMultipartå¯¹è±¡ä½œä¸ºæ ¹å®¹å™¨
     if not self.main_msg:
       self.main_msg = email.MIMEMultipart.MIMEMultipart()
 
